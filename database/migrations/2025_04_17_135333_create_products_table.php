@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-          
-            $table->string('ProductID')->primary(); // String-based ID
-            $table->string('Name');
+            $table->string('ProductID')->primary(); // Define primary key explicitly
+            $table->string('name');
             $table->text('Description')->nullable();
             $table->decimal('Price', 8, 2);
-            $table->string('manufacturer_id'); // ManufacturerID as a string
-            $table->foreign('manufacturer_id')->references('id')->on('manufacturers')->onDelete('cascade');
-            $table->string('Picture')->nullable(false); // Picture must always have a value
-
+            $table->integer('stock')->default(0);
+            $table->string('Picture')->nullable(false);
+            $table->foreignId('manufacturer_id');
             $table->timestamps();
+          
         });
     }
 

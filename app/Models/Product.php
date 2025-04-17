@@ -2,19 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    //
-    use HasFactory;
+    protected $table = 'products';
+    protected $primaryKey = 'ProductID';
 
+    protected $fillable = ['ProductID', 'name', 'Description','Price','stock','Picture','manufacturer_id']; // Columns that can be mass-assigned
 
-     protected $table = 'products';
-     protected $primaryKey = 'ProductID'; 
-
-     protected $fillable = [
-        'ProductID', 'Name', 'Description', 'Price', 'manufacturer_id', 'Picture'
-    ];
+    
 }
