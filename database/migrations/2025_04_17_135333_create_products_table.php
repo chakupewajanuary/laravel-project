@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->string('ProductID')->primary(); // Define primary key explicitly
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('Description')->nullable();
             $table->decimal('Price', 8, 2);
             $table->integer('stock')->default(0);

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SalerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,6 +68,11 @@ Route::get('/manufacturer', function(){
     return view('manufacturer');
 })->name('manufacturer');
 
+Route::get('/admin',function(){
+    return view('admin');
+});
+
+
 //saler form submision receiving 
 Route::post('/saler/store', [SalerController::class, 'store'])->name('saler.store');
 
@@ -91,3 +98,6 @@ Route::post('/login', [CustomerController::class, 'login'])->name('customer.logi
 //manufacturer form submision receiving 
 Route::post('/manufacturer/Registration', [ManufacturerController::class, 'Registration'])->name('manufacturer.Registration');
 
+Route::post('/jamani',[ProductController::class,'registerProduct'])->name('product.registerProduct');
+
+Route::post('/admin',[AdminController::class,'adminRegister'])->name('admin.adminRegister');
