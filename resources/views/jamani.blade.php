@@ -29,7 +29,7 @@
     <form action="{{route('product.registerProduct')}}" method="POST">
         @csrf
         <label for="">ProductID</label>
-        <input type="text" name="productID">
+        <input type="text" name="ProductID">
         <label for="">Productname</label>
         <input type="text" name="name">
         <label for="">Description</label>

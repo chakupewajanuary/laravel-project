@@ -60,7 +60,7 @@ class CustomerController extends Controller
     // function to handle login
     public function login(Request $request)
     {
-        // Validate input
+        // Validate input 
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
@@ -72,7 +72,7 @@ class CustomerController extends Controller
         // Verify password and login
         if ($customer && Hash::check($request->password, $customer->password)) {
             Auth::login($customer);
-            return redirect()->route('product')->with('success', 'Login successful!');
+            return redirect()->route('order')->with('success', 'Login successful!');
         }
     
         return back()->withErrors(['username' => 'Invalid credentials']);
@@ -95,5 +95,6 @@ class CustomerController extends Controller
         $data=Customer::get();
         // return $data;
         return view('chaku-list',compact('data'));
+        
     }
 }

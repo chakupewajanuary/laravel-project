@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-            $table->string('username')->unique(); // For storing names
+            $table->string('username')->primary(); // For storing names
             $table->string('email')->unique(); // For storing emails, ensuring uniqueness
             $table->text('address'); // For storing addresses
             $table->string('phone'); // For storing phone numbers

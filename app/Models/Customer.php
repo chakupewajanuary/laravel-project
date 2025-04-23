@@ -12,8 +12,17 @@ class Customer extends Authenticatable
     //
     use HasFactory;
     protected $table = 'customers';
+    protected $primaryKey= 'username';
 
     protected $fillable = ['username', 'email', 'address','phone','password']; // Columns that can be mass-assigned
-    // protected $primaryKey= 'username';
+    
+    protected $hidden = [
+        'password',
+    ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'CustomerUsername', 'username');
+    }
 
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -71,7 +72,10 @@ Route::get('/manufacturer', function(){
 Route::get('/admin',function(){
     return view('admin');
 });
-
+// for order route
+Route::get('/order',function(){
+    return view('order');
+})->name('order');
 
 //saler form submision receiving 
 Route::post('/saler/store', [SalerController::class, 'store'])->name('saler.store');
@@ -101,3 +105,12 @@ Route::post('/manufacturer/Registration', [ManufacturerController::class, 'Regis
 Route::post('/jamani',[ProductController::class,'registerProduct'])->name('product.registerProduct');
 
 Route::post('/admin',[AdminController::class,'adminRegister'])->name('admin.adminRegister');
+
+
+
+
+// Route to show the create order form
+Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create')->middleware('auth');
+
+// Route to handle storing the order
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
