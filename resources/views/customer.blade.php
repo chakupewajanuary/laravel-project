@@ -20,7 +20,7 @@
             width: 10%;
         }
         form{
-            margin-left:20px;
+            margin-left:250px;
             width: 50%;
             border: 2px grey solid;
         }
