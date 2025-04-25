@@ -25,7 +25,7 @@ class AdminController extends Controller
             'password'=>bcrypt($request->password),    
         ]);
 
-        return redirect()->route('product');
+        return redirect()->route('manufacturer');
 
     }
 

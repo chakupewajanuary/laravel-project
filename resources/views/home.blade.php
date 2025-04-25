@@ -37,7 +37,7 @@
             <ul>
                 <li><a href="{{route('home')}}">Home</a></li>
                 <li><a href="{{route('about')}}">About Us</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="{{route('product')}}">Products</a></li>
                 <li><a href="{{route('contact')}}">Contact Us</a></li>
             </ul>
         </aside>
@@ -45,7 +45,7 @@
             <div class="hero-section">
                 <h2>Modern Furniture for Your Dream Home</h2>
                 <p class="lead">Discover a wide range of stylish and high-quality furniture to elevate your living spaces.</p>
-                <a href="products.html" class="button primary-btn">Browse Products</a>
+                <a href="{{route('product')}}" class="button primary-btn">Browse Products</a>
             </div>    
             <div class="sect-1">
                 <div>
