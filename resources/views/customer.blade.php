@@ -69,8 +69,5 @@
         <input type="submit" name="submit" value="submit" id= "submit">
         <button><a href="{{route('login')}}">Login</a></button>
     </form>
-
-
-    
 </body>
 </html>

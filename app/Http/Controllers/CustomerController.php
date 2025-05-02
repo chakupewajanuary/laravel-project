@@ -97,4 +97,9 @@ class CustomerController extends Controller
         return view('chaku-list',compact('data'));
         
     }
+    public function getCustomer(){
+        $customer=Customer::get();
+        return view('displayadmin',compact('customer'));
+    
+    }
 }

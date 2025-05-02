@@ -26,6 +26,11 @@
             margin-top:20px;
             margin-bottom:20px;
         }
+        button{
+            width:10%;
+            margin-top:20px;
+            margin-bottom:20px;
+        }
     </style>
 </head>
 <body>
@@ -48,6 +53,7 @@
         <input type="password" name="password"><br>
 
         <input type="submit" name="submit" value="submit">
+        <button type="button"><a href="{{route('adminlogin')}}">Login Toregister manu</a> </button>
     </form>
     
 </body>

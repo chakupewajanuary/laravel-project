@@ -33,4 +33,9 @@ class ManufacturerController extends Controller
         // Redirect with success message
         return redirect()->back()->with('success', 'Manufacturer registered successfully!');
     }
+
+    public function index(){
+        $manu=Manufacturer::get();
+        return view('displayadmin',compact('manu'));
+    }
 }

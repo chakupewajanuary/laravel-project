@@ -8,6 +8,9 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ProgramController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -114,3 +117,40 @@ Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.c
 
 // Route to handle storing the order
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
+
+// for manufacurer login
+Route::get('/manufacturerlogin',function(){
+    return view('manufacturerlogin');
+})->name('manufacturerlogin');
+Route::get('/student',function(){
+    return view('student');
+})->name('student');
+
+Route::get('/adminlogin',function(){
+    return view('adminlogin');
+})->name('adminlogin');
+Route::post('/adminlogin',[AdminController::class,'login'])->name('admin.login');
+
+Route::post('/student',[StudentController::class,'store'])->name('students.store');
+
+Route::get('/programs',function(){
+    return view('programs');
+})->name('programs');
+
+Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs.create');
+Route::post('/programs', [ProgramController::class, 'store'])->name('programs.store');
+
+// Route::get('/displayadmin',[AdminController::class,'getAdimn']);
+
+Route::get('/displayadmin',function(){
+    return view('displayadmin');
+})->name('displayadmin');
+
+Route::get('/wed',function(){
+    return view('wed');
+})->name('wed');
+
+// Route::get('/displayadmin',[CustomerController::class,'getCustomer']);
+// Route::get('/displayadmin',[ManufacturerController::class,'index']);
+Route::get('/displayadmin',[AdminController::class,'index']);
+Route::get('/wed',[AdminController::class,'learn'])->name('admin.learn');
