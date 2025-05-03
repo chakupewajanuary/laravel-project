@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id('OrderID');
             $table->date('OrderDate');
             $table->string('Status');
-            $table->string('CustomerUsername'); // Foreign Key
+            $table->string('username'); // Foreign Key
+            // $table->unsigned('username'); // explicitly define st_id as an unsigned big integer
+            $table->foreign('username')->references('username')->on('customers'); // Foreign key to st_id in student
             $table->timestamps();
 
             // Set up the foreign key relationship
-            $table->foreign('CustomerUsername')->references('username')->on('customers')->onDelete('cascade');
+            // $table->foreign('CustomerUsername')->references('username')->on('customers')->onDelete('cascade');
         });
     }
 

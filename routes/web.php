@@ -150,7 +150,15 @@ Route::get('/wed',function(){
     return view('wed');
 })->name('wed');
 
+Route::get('/placeorder',function(){
+    return view('placeorder');
+})->name('placeorder');
+
 // Route::get('/displayadmin',[CustomerController::class,'getCustomer']);
 // Route::get('/displayadmin',[ManufacturerController::class,'index']);
 Route::get('/displayadmin',[AdminController::class,'index']);
 Route::get('/wed',[AdminController::class,'learn'])->name('admin.learn');
+Route::post('/placeorder',[OrderController::class,'registerOrder'])->name('Order.registerOrder');
+
+
+Route::get('/placeorder',[OrderController::class,'getcustomer']);

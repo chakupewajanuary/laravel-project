@@ -22,7 +22,8 @@ class Customer extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'CustomerUsername', 'username');
+        // return $this->hasMany(Order::class, 'CustomerUsername', 'username');
+        return $this->hasMany(Order::class, 'username');
     }
 
 }
