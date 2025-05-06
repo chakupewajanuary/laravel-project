@@ -44,6 +44,41 @@
 
             <button type="submit" class="btn btn-primary">Place Order</button>
         </form>
+
+        
     </div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ProductID</th>
+                <th>name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>stock</th>
+                <th>Picture</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach($prod as $product)
+            <tr>
+                <td></td>
+                <td>{{$product->ProductID}}</td>
+                <td>{{$product->name}}</td>
+                <td>{{$product->Description}}</td>
+                <td>{{$product->Price}}</td>
+                <td>{{$product->stock}}</td>
+                <td>{{$product->Picture}}</td>
+                <!-- <td><img src="{{$product->Picture}}" alt="failured reloadded on the database" srcset=""></td> -->
+                <td><img src="{{$product->Picture}}" alt=""></td>
+            </tr>
+            
+            @endforeach()
+        </tbody>
+       
+
+    </table>
+    
 </body>
 </html>

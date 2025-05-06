@@ -14,4 +14,8 @@ class Manufacturer extends Model
     protected $primaryKey = 'manufacturer_id'; // ✅ Defines the primary key explicitly
 
     protected $fillable = ['manufacturer_id', 'name', 'country','contact_info','password'];
+
+    public function products(){
+        return $this->hasMany(Product::class, 'manufacturer_id');
+    }
 }

@@ -13,24 +13,18 @@
         label{
             font-size: 2em;
         }
-        a{
-            text-decoration:none;
-            color:green;
-            margin-left:20px;
-        }
-        tr{
-            padding-top: 50px;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
-    <h2>hello, welcomee to place order</h2>
-    @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+    <h2>hello, welcomee to update your order</h2>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
-        <form action="{{ route('Order.registerOrder') }}" method="POST">
+        <form action="{{ route('updateOrder.order') }}" method="POST">
             @csrf
+            @method('PUT')
             <div class="mb-3">
                 <label for="orderId">OrderID:</label>
                 <input type="text" name="OrderID" id="OrderID">
@@ -56,34 +50,11 @@
                 <input type="text" name="username" id="username">
             </div>
 
-            <button type="submit" class="btn btn-primary">Place Order</button>
-        </form>
-        <h1>hellloooo .........</h1>
-        <h2>this are the customers</h2>
-        <table>
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>TelP-hone</th>
-            <th>Select </th>
-        </tr>
-    </thead>
-    <tbody>
+            <button type="submit" class="btn btn-primary">Update Order</button>
+            <button type="button"><a href="deleteorder" class="btn btn-danger btn-sm">Delete Order</a></button>
 
-        @foreach( $customer as $cust)
-        <tr>
-            <td>{{$cust->username}}</td>
-            <td>{{$cust->email}}</td>
-            <td>{{$cust->address}}</td>
-            <td>{{$cust->phone}}</td>
-            <td><a href="remakeorder" class="btn btn-warning btn-sm">Edit Order</a></td>
-            <td><a href="deleteorder" class="btn btn-danger btn-sm">Delete Order</a></td>
-        </tr>
-        @endforeach()
-    </tbody>
-</table>
+        </form>
+
 
 </body>
 </html>

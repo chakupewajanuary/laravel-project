@@ -26,20 +26,25 @@
 </head>
 <body>
     <h2>Hello, Manufacturer welcomer reqister new products 🖐</h2>
+    @if (session('success'))
+            <div class="alert alert-success" style="backgroundcolor:grey; color:green;">{{ session('success') }}</div>
+    @endif
     <form action="{{route('product.registerProduct')}}" method="POST">
         @csrf
-        <label for="">ProductID</label>
+        <label for="ProductID">ProductID</label>
         <input type="text" name="ProductID">
-        <label for="">Productname</label>
+        <label for="name">Productname</label>
         <input type="text" name="name">
-        <label for="">Description</label>
+        <label for="name">Description</label>
         <input type="text" name="Description">
-        <label for="price">Price</label>
-        <input type="text" name="Price">
+        <label for="Price">Price</label>
+        <input type="number" name="Price">
         <label for="stock">Stock</label>
         <input type="number" name="stock">
         <label for="Picture">Picture</label>
-        <input type="file" name="Picture" id="Picture"><br>
+        <input type="file" name="Picture" id="Picture">
+        <label for="manufacturer_id">manufacturer_id</label>
+        <input type="text" name="manufacturer_id"><br>
         <input type="submit" name="submit" id="submit">
     </form>
 </body>

@@ -162,3 +162,25 @@ Route::post('/placeorder',[OrderController::class,'registerOrder'])->name('Order
 
 
 Route::get('/placeorder',[OrderController::class,'getcustomer']);
+
+
+Route::get('/orders/{orderID}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+Route::put('/orders/{orderID}', [OrderController::class, 'update'])->name('orders.update');
+Route::get('/update_order', function(){
+    return view('update_order');
+})->name('update_order');
+
+Route::get('/remakeorder',function(){
+    return view('remakeorder');
+})->name('remakeorder');
+
+Route::put('/remakeorder',[OrderController::class,'updateOrder'])->name('updateOrder.order');
+
+
+
+Route::get('/deleteorder',function(){
+    return view('deleteorder');
+})->name('deleteorder');
+Route::delete('/deleteorder', [OrderController::class, 'deleteOrder'])->name('deleteOrder.order');
+
+Route::get('/order',[ProductController::class,'getproduct']);

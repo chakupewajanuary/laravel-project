@@ -15,10 +15,15 @@ return new class extends Migration
             $table->string('ProductID')->primary(); // Define primary key explicitly
             $table->string('name')->unique();
             $table->text('Description')->nullable();
-            $table->decimal('Price', 8, 2);
+            $table->integer('Price');
+            // $table->decimal('Price', 8, 2);
             $table->integer('stock')->default(0);
-            $table->string('Picture')->nullable(false);
-            $table->foreignId('manufacturer_id');
+            // $table->string('Picture')->nullable(false);
+            $table->string('Picture')->nullable();
+
+            $table->string('manufacturer_id');
+            $table->foreign('manufacturer_id')->references('manufacturer_id')->on('manufacturers'); // Foreign key to st_id in student
+
             $table->timestamps();
           
         });

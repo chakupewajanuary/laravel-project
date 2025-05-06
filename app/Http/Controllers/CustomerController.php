@@ -72,7 +72,7 @@ class CustomerController extends Controller
         // Verify password and login
         if ($customer && Hash::check($request->password, $customer->password)) {
             Auth::login($customer);
-            return redirect()->route('order')->with('success', 'Login successful!');
+            return redirect()->route('remakeorder')->with('success', 'Login successful!');
         }
     
         return back()->withErrors(['username' => 'Invalid credentials']);
