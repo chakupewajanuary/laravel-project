@@ -35,10 +35,11 @@
 </head>
 <body>
 
-    <form action="{{route('admin.adminRegister')}}" method="POST" >
+    <form action="{{route('admin.adminRegister')}}" method="POST" id="myform">
         @csrf
         <label for="adminID">AdminID: </label>
         <input type="text" name="adminID">
+        <div id="my"></div>
 
         <label for="name">AdminName: </label>
         <input type="text" name="name">
@@ -52,9 +53,24 @@
         <label for="password">Password</label>
         <input type="password" name="password"><br>
 
-        <input type="submit" name="submit" value="submit">
+        <input type="submit" name="submit" value="submit" id="btn">
         <button type="button"><a href="{{route('adminlogin')}}">Login Toregister manu</a> </button>
     </form>
+    <script>
+        const myform=document.getElementById('myform');
+        const mysms=document.getElementById('my');
+        const mybtn=document.getElementById('btn');
+        // myform.addEventListener('submit',(e)=>{
+        //     e.preventDefault();
+        //     mysms.innerHTML="please work well";
+        //     mysms.style.background='#00ff00';
+        //     setTimeout(() => {
+        //         mysms.remove();
+           
+        //     }, 3000);
+
+        // });
+    </script>
     
 </body>
 </html>

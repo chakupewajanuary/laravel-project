@@ -71,7 +71,11 @@
                 <td>{{$product->stock}}</td>
                 <td>{{$product->Picture}}</td>
                 <!-- <td><img src="{{$product->Picture}}" alt="failured reloadded on the database" srcset=""></td> -->
-                <td><img src="{{$product->Picture}}" alt=""></td>
+                <!-- <td><img src="{{$product->Picture}}" alt=""></td> -->
+                <!-- <td><img src="{{ Storage::url($product->Picture) }}" alt="Product Image" width="100"></td> -->
+                 <td><img src="{{ $product->getImageSrc()}}" alt="Product Image" width="100">
+                 </td>
+
             </tr>
             
             @endforeach()

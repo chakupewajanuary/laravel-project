@@ -8,73 +8,40 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     //register product
-    public function register_Product(Request $request){
-        //validation to inputs
-        $request->validate([
-            'ProductID'=>'required|string|unique:products',
-            'name'=>'required|string|unique:products',
-            'Description'=>'required|string',
-            'Price'=>'required|numeric',
-            'stock'=>'required|integer',
-            'Picture'=>'required|image',
-           'manufacturer_id'=>'required|string'
-        ]);
-         // Handle file upload properly
-         if ($request->hasFile('Picture')) {
-            $imagePath = $request->file('Picture')->store('product_images', 'public');
-        } else {
-            return back()->withErrors(['Picture' => 'Image upload failed.']);
-        }
-        try {
-            //code...
-            Product::create([
-                'ProductID'=>$request->ProductID,
-                'name'=>$request->name,
-                'Description'=>$request->Description,
-                'Price'=>$request->Price,
-                'stock'=>$request->stock,
-                'Picture'=>$imagePath,
-                'manufacturer_id'=>$request->manufacturer_id,
-            ]);
-        } catch (\Throwable $th) {
-            //throw $th;
-            \Log::error('Product registration failed: ' . $th->getMessage());
-            return back()->withErrors(['error' => 'Failed to save product.']);
-        }
+    public function registerProduct(Request $request){
+       // Validate input
+    $request->validate([
+        'ProductID' => 'required|string|unique:products',
+        'name' => 'required|string|unique:products',
+        'Description' => 'required|string',
+        'Price' => 'required|numeric',
+        'stock' => 'required|integer',
+        'Picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'manufacturer_id' => 'required|exists:manufacturers,manufacturer_id',
+    ]);
+
+    // Hifadhi data yote pamoja na picha
+    $product= new Product();
+        $product->ProductID = $request->ProductID;
+        $product->name = $request->name;
+        $product->Description = $request->Description;
+        $product->Price = $request->Price;
+        $product->stock= $request->stock;
+        $product->Picture = $request->Picture;
+        $product->manufacturer_id = $request->manufacturer_id;
+     // Soma binary ya picha kutoka kwa input
+     if ($request->hasFile('Picture')) {
+         $image=$request->file('Picture');
+         $product->Picture=file_get_contents($image);
+         // $imageData = file_get_contents($request->file('Picture')->getRealPath());
+     }
+     $product->save();
+
+    return redirect()->back()->with('success', 'Product registered with image successfully!');
        
-
     }
-     //am using Registration instead of store for default as laravel use for saving
-     public function registerProduct(Request $request){
-        $request->validate([
-            'ProductID'=>'required|string|unique:products',
-            'name'=>'required|string|unique:products',
-            'Description'=>'required|string',
-            'Price'=>'required|numeric',
-            'stock'=>'required|integer',
-            'Picture'=>'string',
-            'manufacturer_id'=>'required',
-        ]);
-         // Create and save manufacturer record
-         Product::create([
-            'ProductID' => $request->ProductID,
-            'name' => $request->name,
-            'Description' => $request->Description,
-            'Price' => $request->Price,
-            'stock' => $request->stock,
-            'Picture' => $request->Picture,
-            'manufacturer_id' => $request->manufacturer_id,
-
-           
-        ]);
-
-        //  // Save manufacturer record
-        //  Manufacturer::create($request->all());
-
-        // Redirect with success message
-        return redirect()->back()->with('success', 'Product registered successfully!');
-    }
-
+   
+    
     // public function getproduct(){
     //     $prod=Product::all();
     //     return view('product',compact('prod'));

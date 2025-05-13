@@ -29,7 +29,7 @@
     @if (session('success'))
             <div class="alert alert-success" style="backgroundcolor:grey; color:green;">{{ session('success') }}</div>
     @endif
-    <form action="{{route('product.registerProduct')}}" method="POST">
+    <form action="{{route('product.registerProduct')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <label for="ProductID">ProductID</label>
         <input type="text" name="ProductID">

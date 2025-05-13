@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -18,15 +19,15 @@ return new class extends Migration
             $table->integer('Price');
             // $table->decimal('Price', 8, 2);
             $table->integer('stock')->default(0);
-            // $table->string('Picture')->nullable(false);
-            $table->string('Picture')->nullable();
+            $table->binary('Picture')->nullable();
 
             $table->string('manufacturer_id');
             $table->foreign('manufacturer_id')->references('manufacturer_id')->on('manufacturers'); // Foreign key to st_id in student
-
             $table->timestamps();
           
         });
+          // Alter the Picture column to be a LONG BLOB
+          DB::statement("ALTER TABLE products MODIFY Picture LONGBLOB");
     }
 
     /**
