@@ -52,38 +52,17 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="username">CustomerUsername</label>
-                <input type="text" name="username" id="username">
+                 <!-- Hidden field with customer username -->
+                @if ($customer)
+                    <input type="hidden" name="username" value="{{ $customer->username }}">
+                @else
+                    <p class="text-danger">Error: No customer data found. Please log in.</p>
+                @endif
             </div>
 
             <button type="submit" class="btn btn-primary">Place Order</button>
         </form>
-        <h1>hellloooo .........</h1>
-        <h2>this are the customers</h2>
-        <table>
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>TelP-hone</th>
-            <th>Select </th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach( $customer as $cust)
-        <tr>
-            <td>{{$cust->username}}</td>
-            <td>{{$cust->email}}</td>
-            <td>{{$cust->address}}</td>
-            <td>{{$cust->phone}}</td>
-            <td><a href="remakeorder" class="btn btn-warning btn-sm">Edit Order</a></td>
-            <td><a href="deleteorder" class="btn btn-danger btn-sm">Delete Order</a></td>
-        </tr>
-        @endforeach()
-    </tbody>
-</table>
+       
 
 </body>
 </html>

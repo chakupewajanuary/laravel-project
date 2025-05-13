@@ -55,28 +55,21 @@ class CustomerController extends Controller
     //     return redirect()->back()->with('success', 'Saler registered successfully!');
     // }
 
-
-
-    // function to handle login
-    public function login(Request $request)
-    {
-        // Validate input 
+    public function login(Request $request){
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
     
-        // Find customer by username
-        $customer = Customer::where('username', $request->username)->first();
-    
-        // Verify password and login
+        $customer = Customer::where('username', $request->username)->first();  
         if ($customer && Hash::check($request->password, $customer->password)) {
-            Auth::login($customer);
-            return redirect()->route('remakeorder')->with('success', 'Login successful!');
+            session(['customer_username' => $customer->username]); // ✅ Store username in session
+            return redirect()->route('placeorder')->with('success', 'Login successful!');
         }
     
         return back()->withErrors(['username' => 'Invalid credentials']);
     }
+    
     // User Logout
     // public function logout()
     // {

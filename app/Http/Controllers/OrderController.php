@@ -147,11 +147,28 @@ public function edit($orderID) {
     return view('update_order', compact('order'));
 }
 
-// trialling for the customer
-public function getcustomer(){
-    $customer=Customer::get();
-    return view('placeorder',compact('customer'));
+// // trialling for the customer
+// public function getcustomer(){
+//     $customer=Customer::get();
+//     return view('placeorder',compact('customer'));
+// }
+
+public function getcustomer()
+{
+    $username = session('customer_username');
+
+    if ($username) {
+        $customer = Customer::where('username', $username)->first();
+
+        if ($customer) {
+            return view('placeorder', compact('customer'));
+        }
+    }
+
+    return redirect('/login')->with('error', 'Please log in.');
 }
+
+
 }
 // // for model 
 // public function submittingdata(Request $request){

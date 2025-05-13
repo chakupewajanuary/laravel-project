@@ -150,9 +150,18 @@ Route::get('/wed',function(){
     return view('wed');
 })->name('wed');
 
-Route::get('/placeorder',function(){
+
+
+
+Route::get('/placeorder', function () {
     return view('placeorder');
-})->name('placeorder');
+})->name('placeorder'); // ✅ add the route name!
+
+
+
+
+
+
 
 // Route::get('/displayadmin',[CustomerController::class,'getCustomer']);
 // Route::get('/displayadmin',[ManufacturerController::class,'index']);
@@ -161,7 +170,7 @@ Route::get('/wed',[AdminController::class,'learn'])->name('admin.learn');
 Route::post('/placeorder',[OrderController::class,'registerOrder'])->name('Order.registerOrder');
 
 
-Route::get('/placeorder',[OrderController::class,'getcustomer']);
+Route::get('/placeorder',[OrderController::class,'getcustomer'])->name('placeorder');
 
 
 Route::get('/orders/{orderID}/edit', [OrderController::class, 'edit'])->name('orders.edit');
