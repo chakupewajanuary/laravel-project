@@ -64,19 +64,38 @@
                 </div>
             </nav>
     <main style="text-align: center;">
-        <h3>This is the products page</h3>
-        <p> responsible for displaying product from the database </p>
-    </main>
-    <table>
-        <tr>
-            <th>#</th>
-            <th>ProductID</th>
-            <th>name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>stock</th>
-        </tr>
-    </table>
+    <h3>This is the products page</h3>
+    <p>Responsible for displaying product from the database</p>
+
+    @if(session('success'))
+        <div style="color: green;">{{ session('success') }}</div>
+    @endif
+
+    @if($products->count() > 0)
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+            @foreach($products as $product)
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; width: 250px;">
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" width="100%" height="200">
+                    <h4>{{ $product->name }}</h4>
+                    <p>{{ $product->Description }}</p>
+                    <p><strong>Price:</strong> ${{ $product->Price }}</p>
+                    <p><strong>Stock:</strong> {{ $product->stock }}</p>
+                    
+                   <form action="{{ route('order.now', ['ProductID' => $product->ProductID]) }}" method="GET">
+                        <button type="submit" style="background-color: green; color: white; padding: 10px 15px; border: none; border-radius: 5px;">
+                            Order Now
+                        </button>
+                    </form>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p>No products available at the moment.</p>
+    @endif
+</main>
+
+   
+    
     
 </body>
 </html>

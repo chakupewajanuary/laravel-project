@@ -38,4 +38,7 @@ class ManufacturerController extends Controller
         $manu=Manufacturer::get();
         return view('displayadmin',compact('manu'));
     }
+    public function manuLogin(){
+        
+    }
 }

@@ -5,10 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <title>Modern Furniture Online Management And Ordering System</title> -->
     <link rel="stylesheet" href="/build/assets/homepagecss/style.css">
+   <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        body{
+            height: 100vh;
+            padding: 150px 75px;
+            text-align: center;
+            background-color: #ebeef3;
+        }
+        h1{
+            font-size: 50px;
+        }
+
+        #typewriter{
+             color: #0072ef;
+             font-weight: bold;
+
+        }
+        #cursor{
+            color: #0072ef;
+            animation: blink 1s linear infinite;
+        }
+        @keyframes blink{
+            0%{
+                opacity: 100%;
+            }
+
+            50%{
+                opacity: 0%;
+
+            }
+
+        }
+
+
+
+    </style>
 </head>
 <body>
     <header>
         <h1>Modern Furniture Online Management And Ordering System</h1>
+        <h1>Hey, welcome <br> to our platform <span id="typewriter"></span> <span id="cursor">|</span> </h1>
     </header>
     <div>
         <div>
@@ -86,6 +128,47 @@
             <p>&copy; 2025 Modern Furniture System. All rights reserved.</p>
         </div>
     </footer>
-    
+   
+    <script>
+        function sleep(ms){
+            return new Promise((resolve)=>(setTimeout(resolve,ms)));
+        }
+        const phrase=['to get modern funirture','we values your time and request','for quality, reliable and faster services'];
+        let el=document.getElementById('typewriter');
+        let sleepTime=100;
+        let curPhraseIndex=0;
+
+
+        const whileloop= async()=>{
+            while(true){
+                let curWord=phrase[curPhraseIndex];
+                // console.log(curWord);
+                for (let i = 0; i< curWord.length; i++) {
+                    // const element = array[i];
+                    el.innerHTML=curWord.substring(0, i+1);
+                    await sleep(sleepTime);
+                    
+                }
+                await sleep(sleepTime * 10);
+
+                for (let i = curWord.length; i>0; i--) {
+                    // const element = array[i];
+                    el.innerHTML=curWord.substring(0, i-1);
+                    await sleep(sleepTime);
+                }
+                await sleep(sleepTime * 5);
+                if (curPhraseIndex===phrase.length-1) {
+                    curPhraseIndex=0;
+                    
+                }else{
+                    curPhraseIndex++;
+                }
+                   
+            }
+
+        }
+
+        whileloop();
+    </script>
 </body>
 </html>

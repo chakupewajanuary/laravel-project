@@ -33,16 +33,21 @@
         @csrf
         <label for="ProductID">ProductID</label>
         <input type="text" name="ProductID">
+
         <label for="name">Productname</label>
         <input type="text" name="name">
+
         <label for="name">Description</label>
         <input type="text" name="Description">
+
         <label for="Price">Price</label>
         <input type="number" name="Price">
         <label for="stock">Stock</label>
         <input type="number" name="stock">
+
         <label for="Picture">Picture</label>
         <input type="file" name="Picture" id="Picture">
+        
         <label for="manufacturer_id">manufacturer_id</label>
         <input type="text" name="manufacturer_id"><br>
         <input type="submit" name="submit" id="submit">

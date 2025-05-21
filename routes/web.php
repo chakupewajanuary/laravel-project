@@ -46,9 +46,9 @@ Route::get('/contact', function(){
     return view('contact');
 })->name('contact');
 //product
-Route::get('/product', function(){
-    return view('product');
-})->name('product');
+// Route::get('/product', function(){
+//     return view('product');
+// })->name('product');
 
 
 //dis
@@ -193,3 +193,7 @@ Route::get('/deleteorder',function(){
 Route::delete('/deleteorder', [OrderController::class, 'deleteOrder'])->name('deleteOrder.order');
 
 Route::get('/order',[ProductController::class,'getproduct']);
+
+// Route::get('/product',[ProductController::class,'index'])->name('product');
+Route::get('/product', [ProductController::class, 'displayproduct'])->name('product');
+Route::get('/order/{ProductID}', [ProductController::class, 'orderNow'])->name('order.now');

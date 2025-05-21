@@ -55,7 +55,7 @@
 </head>
 <body>
 
-  <form>
+  <form action="" method="">
     <div class="form-group">
       <label for="username">Username</label>
       <i class="fas fa-user"></i>

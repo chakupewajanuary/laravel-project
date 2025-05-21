@@ -65,7 +65,7 @@
         <label for="phone">PhoneNumber</label>
         <input type="text"  name="phone">
         <label for="password">Password</label>
-        <input type="text" name="password">
+        <input type="password" name="password">
         <input type="submit" name="submit" value="submit" id= "submit">
         <button><a href="{{route('login')}}">Login</a></button>
     </form>

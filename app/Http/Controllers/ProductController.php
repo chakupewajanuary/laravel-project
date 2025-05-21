@@ -20,34 +20,55 @@ class ProductController extends Controller
         'manufacturer_id' => 'required|exists:manufacturers,manufacturer_id',
     ]);
 
+    $path = $request->file('Picture')->store('photos','public');
+
     // Hifadhi data yote pamoja na picha
     $product= new Product();
         $product->ProductID = $request->ProductID;
         $product->name = $request->name;
         $product->Description = $request->Description;
         $product->Price = $request->Price;
-        $product->stock= $request->stock;
-        $product->Picture = $request->Picture;
+        $product->stock = $request->stock;
+        $product->image_path = $path;
+        //$product->Picture = $request->Picture;
         $product->manufacturer_id = $request->manufacturer_id;
      // Soma binary ya picha kutoka kwa input
-     if ($request->hasFile('Picture')) {
-         $image=$request->file('Picture');
-         $product->Picture=file_get_contents($image);
-         // $imageData = file_get_contents($request->file('Picture')->getRealPath());
-     }
+    //  if ($request->hasFile('Picture')) {
+    //     $image=$request->file('Picture');
+    //     $product->Picture=file_get_contents($image);
+    //      // $imageData = file_get_contents($request->file('Picture')->getRealPath());
+    //  }
+
+
+
+
      $product->save();
 
     return redirect()->back()->with('success', 'Product registered with image successfully!');
        
     }
-   
-    
     // public function getproduct(){
     //     $prod=Product::all();
     //     return view('product',compact('prod'));
     // }
     public function getproduct(){
-        $prod=Product::get();
+        $prod=Product::get(['name','image_path']);
         return view('order',compact('prod'));
+    }
+    // public function index(){
+    //     return view('product');
+    // }
+
+
+       
+    public function displayproduct(){
+       $products= Product::all();
+       return view('product',compact('products')); 
+    }  
+
+    public function orderNow($ProductID)
+    {
+        $product = Product::findOrFail($ProductID);
+        return view('order', compact('product'));
     }
 }

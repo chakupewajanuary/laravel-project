@@ -19,15 +19,16 @@ return new class extends Migration
             $table->integer('Price');
             // $table->decimal('Price', 8, 2);
             $table->integer('stock')->default(0);
-            $table->binary('Picture')->nullable();
-
+            // $table->binary('Picture')->nullable();
+            $table->string('image_path')->nullable();
+        
             $table->string('manufacturer_id');
             $table->foreign('manufacturer_id')->references('manufacturer_id')->on('manufacturers'); // Foreign key to st_id in student
             $table->timestamps();
           
         });
           // Alter the Picture column to be a LONG BLOB
-          DB::statement("ALTER TABLE products MODIFY Picture LONGBLOB");
+        //   DB::statement("ALTER TABLE products MODIFY Picture LONGBLOB");
     }
 
     /**

@@ -25,7 +25,7 @@
      </style>
 </head>
 <body>
-    <h1>Login Admin to register manufacturer</h1>
+    <h1>Hello, welcome Admin to furniture system</h1>
     <form action="{{route('admin.login')}}" method="post">
         @csrf
         <label for="adminId">adminID</label>
