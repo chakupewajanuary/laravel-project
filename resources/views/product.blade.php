@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="nav-2">                        
-                        <button class="button signup-btn"><a href="{{route('customer')}}">Register</a></button> 
+                        <button class="button signup-btn"><a href="{{route('customer')}}">Customer</a></button> 
                         <button class="button login-btn"><a href="{{route('login')}}">Login</a></button> 
                         </div>
                     </ul>

@@ -17,7 +17,11 @@ return new class extends Migration
             $table->string('Status');
             $table->string('username'); // Foreign Key
             // $table->unsigned('username'); // explicitly define st_id as an unsigned big integer
-            $table->foreign('username')->references('username')->on('customers'); // Foreign key to st_id in student
+            $table->foreign('username')->references('username')->on('customers')->onDelete('cascade'); 
+            
+            // Link to products.ProductID
+            $table->unsignedBigInteger('ProductID');
+            $table->foreign('ProductID')->references('ProductID')->on('products')->onDelete('cascade');
             $table->timestamps();
 
             // Set up the foreign key relationship

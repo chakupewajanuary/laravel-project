@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->string('ProductID')->primary(); // Define primary key explicitly
+            $table->id('ProductID'); // Define primary key explicitly
             $table->string('name')->unique();
             $table->text('Description')->nullable();
             $table->integer('Price');

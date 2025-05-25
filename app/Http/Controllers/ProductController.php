@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function registerProduct(Request $request){
        // Validate input
     $request->validate([
-        'ProductID' => 'required|string|unique:products',
+        // 'ProductID' => 'required|string|unique:products',
         'name' => 'required|string|unique:products',
         'Description' => 'required|string',
         'Price' => 'required|numeric',
@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     // Hifadhi data yote pamoja na picha
     $product= new Product();
-        $product->ProductID = $request->ProductID;
+        // $product->ProductID = $request->ProductID;
         $product->name = $request->name;
         $product->Description = $request->Description;
         $product->Price = $request->Price;
@@ -69,6 +69,6 @@ class ProductController extends Controller
     public function orderNow($ProductID)
     {
         $product = Product::findOrFail($ProductID);
-        return view('order', compact('product'));
+        return view('login', compact('product'));
     }
 }

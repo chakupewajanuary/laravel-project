@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -8,97 +9,78 @@ use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
-    //
+    // Show the order form
+    public function orderMake()
+    {
+        // Check if customer is authenticated
+        if (!Auth::guard('customer')->check()) {
+            return redirect()->route('customer.login')->with('error', 'Please log in first.');
+        }
+
+        $data = \App\Models\Product::all();
+        return view("order", compact('data'));
+    }
+
+    // Register a new customer
     public function store(Request $request)
     {
-        // Validate the form data
+        
         $request->validate([
-            'username' => 'required|string|max:255|unique:customers,username',
-            'email' => 'required|email|unique:customers,email',
+            'username' => 'required|string|unique:customers,username',
+            'email' => 'required|email|unique:customers',
             'address' => 'required|string',
             'phone' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|string|min:6',
         ]);
+        // dd($request->all());
 
-          // Create a new Saler record
-          Customer::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'address' => $request->address,
-            'phone' => $request->phone,
+        Customer::create([
+            'username'    => $request->username,
+            'email'    => $request->email,
+            'address'  => $request->address,
+            'phone'    => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Customer registered successfully!');
+        return redirect()->route('customer.login')->with('success', 'Customer registered successfully! Please login.');
     }
 
-    // public function store(Request $request)
-    // {
-    //     // Validate the form data
-    //     $request->validate([
-    //         'username' => 'required|string|max:255',
-    //         'email' => 'required|email|unique:salers,email',
-    //         'address' => 'required|string',
-    //         'phone' => 'required|string',
-    //     ]);
-
-    //     // Create a new Saler record
-    //     Saler::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'address' => $request->address,
-    //         'phone' => $request->phone,
-    //     ]);
-
-    //     // Redirect back with success message
-    //     return redirect()->back()->with('success', 'Saler registered successfully!');
-    // }
-
+        // Handle login
     public function login(Request $request)
-{
-    $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ]);
+    {
+        $credentials = $request->validate([
+            'username'    => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-    // Get customer from the database
-    $customer = Customer::where('username', $request->username)->first();
+        if (Auth::guard('customer')->attempt($credentials)) {
+            $request->session()->regenerate();
+            $customer = Auth::guard('customer')->user();
+            $request->session()->put('customer_username', $customer->username);
 
-    // Check if user exists and password matches
-    if ($customer && Hash::check($request->password, $customer->password)) {
-        session(['customer_username' => $customer->username]);
-        return redirect()->route('placeorder')->with('success', 'Login successful!');
+            return redirect()->route('customer.order')->with('success', 'Login successful!');
+        }
+
+        return back()->withErrors([
+            'username' => 'Invalid credentials.',
+        ])->withInput($request->only('username'));
     }
 
-    // If login fails
-    return back()->withErrors(['username' => 'Invalid credentials']);
-}
+    // Logout customer
+    public function logout(Request $request)
+    {
+        Auth::guard('customer')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    
-    // User Logout
-    // public function logout()
-    // {
-    //     Auth::logout();
-    //     return redirect()->route('login')->with('success', 'Logged out successfully!');
-    // }
-
-
-    //for retriewing data from database 
-        //step
-        //01--use model as import in the controller which do database oparations
-        //02 define method for logic 
-        // 03--register to the route
-        
-    public function chaku(){
-        $data=Customer::get();
-        // return $data;
-        return view('chaku-list',compact('data'));
-        
+        return redirect()->route('customer.login')->with('success', 'Logged out successfully.');
     }
-    public function getCustomer(){
-        $customer=Customer::get();
-        return view('displayadmin',compact('customer'));
-    
+
+    // View customer list
+    public function chaku()
+    {
+        $data = Customer::all();
+        return view('chaku-list', compact('data'));
     }
+
 }

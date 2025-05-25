@@ -100,6 +100,37 @@
       display: flex;
       width: 100%;
     }
+    #nav{
+        width: 84%;
+        height: 60px;
+        border: 2px #ff5 solid;
+        position: absolute;
+        display: flex;
+        float: left;
+      
+    }
+    #btn-logout{
+        margin-right: 0px;
+        width: 100px;
+        margin-left:50%;
+        background-color: black;
+        color: white;
+        font-size : 18px;
+    }
+    #btn-logout:hover{
+       background-color: green;
+    }
+    #search{
+        width: 40%;
+        border: 1px black solid;
+        font-size: 1.5rem;
+        border-radius: 20px ;
+        font-family: Arial, sans-serif;
+        margin-left: 50px;
+    }
+    a{
+        text-decoration:none;
+    }
     </style>
 </head>
 <body>
@@ -122,6 +153,10 @@
                 {{ session('success') }}
             </div>
         @endif
+        <div id="nav">
+            <input type="search" name="" id="search">
+            <button id="btn-logout"> <a  href="{{ route('home') }}"> Log Out</a></button>
+        </div>
             
             <form action="{{ route('manufacturer.Registration') }}" method="POST" id="myform">
                 @csrf
@@ -148,11 +183,6 @@
    
     <script>
         let product=document.getElementById('manufacturer');
-        console.log(product);
-        // product.onclick = function()=>{
-        //     console.log("this is the product....");
-        //     let manu=document.getElementById('myform');
-        // }
         product.addEventListener('click',()=>{
 
             let manu=document.getElementById('myform');

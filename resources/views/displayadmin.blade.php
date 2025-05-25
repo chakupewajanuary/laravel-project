@@ -8,7 +8,7 @@
 
 
 
-<h2>this are the customers</h2>
+<h2>this are the Admins</h2>
 <table>
     <thead>
         <tr style="border:2px solid black;">

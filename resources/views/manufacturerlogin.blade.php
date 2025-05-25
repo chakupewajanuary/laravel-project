@@ -51,15 +51,21 @@
     button:hover {
       background-color: #0056b3;
     }
+    h1{
+      text-align:center;
+
+    }
   </style>
 </head>
 <body>
+  <h1>hello, Wecome to work together for modern furniture,<br>Manufacturer </h1>
 
-  <form action="" method="">
+  <form action="{{ route('manuLogin.log') }}" method="POST">
+     @csrf
     <div class="form-group">
       <label for="username">Username</label>
       <i class="fas fa-user"></i>
-      <input type="text" id="username" name="username" placeholder="Enter username">
+      <input type="text" id="username" name="manufacturer_id" placeholder="Enter username">
     </div>
 
     <div class="form-group">

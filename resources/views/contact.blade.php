@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="nav-2">
-                            <li><a href="{{route('customer')}}"><button class="button signup-btn">Register</button></a></li>
+                            <li><a href="{{route('customer')}}"><button class="button signup-btn">Customer</button></a></li>
                             <li><a href="{{route('login')}}"><button class="button login-btn">Login</button></a></li>
                         </div>
                     </ul>

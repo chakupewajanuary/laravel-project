@@ -8,6 +8,9 @@ use App\Models\Manufacturer;
 class ManufacturerController extends Controller
 {
     
+    public function productreg(){
+        return view("jamani");
+    }
 
     //am using Registration instead of store for default as laravel use for saving
     public function Registration(Request $request){
@@ -38,7 +41,24 @@ class ManufacturerController extends Controller
         $manu=Manufacturer::get();
         return view('displayadmin',compact('manu'));
     }
-    public function manuLogin(){
-        
+    
+    public function manuLogin(Request $request)
+    {
+        // Validate the credentials
+        $request->validate([
+            'manufacturer_id' => 'required|string',  // assuming 'username' is actually manufacturer_id
+            'password' => 'required|string',
+        ]);
+
+        $manufacturer = Manufacturer::where('manufacturer_id', $request->manufacturer_id)->first();
+
+        if ($manufacturer && Hash::check($request->password, $manufacturer->password)) {
+            // Login successful
+            session(['manufacturer_id' => $manufacturer->manufacturer_id]); // store manufacturer in session
+            return redirect()->route('product.registration'); // redirect to product registration form
+        } else {
+            // Login failed
+            return redirect()->back()->with('error', 'Invalid login credentials');
+        }
     }
 }

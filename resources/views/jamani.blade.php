@@ -31,8 +31,8 @@
     @endif
     <form action="{{route('product.registerProduct')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <label for="ProductID">ProductID</label>
-        <input type="text" name="ProductID">
+        <!-- <label for="ProductID">ProductID</label>
+        <input type="text" name="ProductID"> -->
 
         <label for="name">Productname</label>
         <input type="text" name="name">
@@ -48,8 +48,7 @@
         <label for="Picture">Picture</label>
         <input type="file" name="Picture" id="Picture">
         
-        <label for="manufacturer_id">manufacturer_id</label>
-        <input type="text" name="manufacturer_id"><br>
+        <input type="hidden" name="manufacturer_id" value="{{ session('manufacturer_id') }}"><br>
         <input type="submit" name="submit" id="submit">
     </form>
 </body>

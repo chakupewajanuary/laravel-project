@@ -5,186 +5,127 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    //
-    
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'OrderDate' => 'required|date',
-        'Status' => 'required|string|max:255',
-    ]);
+    public function getproductdisplay()
+    {
+        $products = Product::all();
+        return view('order', compact('products'));
+    }
 
-    Order::create([
-        'OrderDate' => $validated['OrderDate'],
-        'Status' => $validated['Status'],
-        'CustomerUsername' => Auth::user()->username, // use logged-in customer username
-    ]);
-    return redirect()->route('product');
-
-    // return redirect()->route('orders.index')->with('success', 'Order placed successfully!');
-}
-public function registerOrder(Request $request){
-
-    // return dd($request->all());
-    $request->validate([
-        'OrderID'=>'required|string|max:255|unique:orders,OrderID',
-        'OrderDate' => 'required|date',
-        'Status' => 'required|string|max:255',
-        'username' => 'required',
-    ]);
-    // $customer=Customer::get();
-    // $request->username===$customer->username
-    $customer=Customer::where('username',$request->username)->first();
-    if ($customer) {
-        Order::create([
-            'OrderID'=>$request->OrderID,
-            'OrderDate'=>$request->OrderDate,
-            'Status'=>$request->Status,
-            'username'=>$request->username,
+    // Handle customer orders
+    public function customerOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'OrderDate' => 'required|date',
+            'Status' => 'required|string|max:255',
+            'ProductID' => 'required|exists:products,ProductID',
         ]);
-        return redirect()->route('product');
-    } else {
-        # code...
-        return response()->json(['error'=>'Customer not found '],404);
-    }
-}
-// update order placed
-// public function updateOrder(Request $request,$orderID){
-//     $request->validate([
-//         'OrderID'=>'required|string|max:255|unique:orders,OrderID',
-//         'OrderDate' => 'required|date',
-//         'Status' => 'required|string|max:255',
-//         'username' => 'required',
-//     ]);
-//     // find order by orderID
-//     $order=Order::where('OrderID',$orderID)->first();
-//     // check if the order exitsts
-//     if (!$order) {
-//         # code...
-//         return response()->json(['error'=>'Order not found'],404);
-//     }
-//     //retrieviewing the Customer by username
-//     $customer=Customer::where('username',$request->username)->first();
-//     // check if customer exists
-//     if (!$customer) {
-//         # code...
-//         return response()->json(['error'=>'Customer not found'],404);
-//     }
-//     // update the order
-//     $order->update([
-//         'OrderID'=>$request->OrderID,
-//         'OrderDate'=>$request->OrderDate,
-//         'Status'=>$request->Status,
-//         'username'=>$request->username,
-//     ]);
-//     return response()->json(['message'=>'Order updated successfully','order'=>$order]);
-// }
 
-public function updateOrder(Request $request)
-{
-    $request->validate([
-        'OrderID' => 'required|string|max:255',
-        'OrderDate' => 'required|date',
-        'Status' => 'required|string|max:255',
-        'username' => 'required|string|max:255',
-    ]);
+        // Ensure customer is authenticated
+        if (!Auth::guard('customer')->check()) {
+            return redirect()->route('customer.login')->with('error', 'Please log in to place an order.');
+        }
 
-    // Find the order
-    $order = Order::where('OrderID', $request->OrderID)->first();
-    if (!$order) {
-        return redirect()->back()->withErrors(['OrderID' => 'Order not found']);
-    }
+        $customer = Auth::guard('customer')->user();
 
-    // Check if customer exists
-    $customer = Customer::where('username', $request->username)->first();
-    if (!$customer) {
-        return redirect()->back()->withErrors(['username' => 'Customer not found']);
-    }
+        try {
+            $order = Order::create([
+                'OrderDate' => $validated['OrderDate'],
+                'Status' => $validated['Status'],
+                'ProductID' => $validated['ProductID'],
+                'username' => $customer->username,
+            ]);
 
-    // Update the order
-    $order->update([
-        'OrderDate' => $request->OrderDate,
-        'Status' => $request->Status,
-        'username' => $request->username,
-    ]);
-
-    return redirect()->back()->with('success', 'Order updated successfully');
-}
-
-// delete order
-public function deleteOrder(Request $request)
-{
-    $request->validate([
-        'OrderID' => 'required|string|max:255',
-    ]);
-
-    $order = Order::where('OrderID', $request->OrderID)->first();
-
-    if (!$order) {
-        return redirect()->back()->with('error', 'Order not found.');
-    }
-    
-
-    $order->delete();
-
-    return redirect()->back()->with('success', 'Order deleted successfully.');
-}
-
-
-
-
-public function edit($orderID) {
-    $order = Order::where('OrderID', $orderID)->first();
-
-    if (!$order) {
-        return redirect()->back()->with('error', 'Order not found');
-    }
-
-    return view('update_order', compact('order'));
-}
-
-// // trialling for the customer
-// public function getcustomer(){
-//     $customer=Customer::get();
-//     return view('placeorder',compact('customer'));
-// }
-
-public function getcustomer()
-{
-    $username = session('customer_username');
-
-    if ($username) {
-        $customer = Customer::where('username', $username)->first();
-
-        if ($customer) {
-            return view('placeorder', compact('customer'));
+            return redirect()->route('customer.order')->with('success', 'Order placed successfully!');
+        } catch (\Exception $e) {
+            Log::error("Order Placement Failed: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to place order. Please try again.');
         }
     }
 
-    return redirect('/login')->with('error', 'Please log in.');
+    public function registerOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'OrderDate' => 'required|date',
+            'Status' => 'required|string|max:255',
+            'username' => 'required|exists:customers,username',
+        ]);
+        try {
+            Order::create($validated);
+            return redirect()->back()->with('success', 'Order registered successfully!');
+        } catch (\Exception $e) {
+            Log::error("Order Registration Failed: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to register order.');
+        }
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'OrderID' => 'required|exists:orders,OrderID',
+            'OrderDate' => 'required|date',
+            'Status' => 'required|string|max:255',
+            'username' => 'required|exists:customers,username',
+        ]);
+
+        
+        $order = Order::find($validated['OrderID']);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+
+        try {
+            $order->update($validated);
+            return redirect()->back()->with('success', 'Order updated successfully.');
+        } catch (\Exception $e) {
+            Log::error("Order Update Failed: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update order.');
+        }
+    }
+    public function deleteOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'OrderID' => 'required|exists:orders,OrderID',
+        ]);
+
+        $order = Order::find($validated['OrderID']);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+
+        try {
+            $order->delete();
+            return redirect()->back()->with('success', 'Order deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error("Order Deletion Failed: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete order.');
+        }
+    }
+    public function edit($orderID)
+    {
+        $order = Order::find($orderID);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found');
+        }
+
+        return view('update_order', compact('order'));
+    }
+
+    public function getcustomer()
+    {
+        if (!Auth::guard('customer')->check()) {
+            return redirect()->route('customer.login')->with('error', 'Please log in.');
+        }
+
+        $customer = Auth::guard('customer')->user();
+        return view('placeorder', compact('customer'));
+    }
 }
-
-
-}
-// // for model 
-// public function submittingdata(Request $request){
-//     // receive data (handle request)
-//     $name=$request->orderID;
-//     $date=$request->OrderDate;
-//     $statu=$request->Status;
-
-//     $ord= new Order();
-//     // save data
-//     $ord->orderID=$name;
-//     $ord->OrderDate=$date;
-//     $ord->$Status=$statu;
-
-
-//     return redirect()->back()->with('success','Order placed successfully..')
-
-
-// }

@@ -64,8 +64,9 @@
                             <li><a href="{{route('contact')}}">Contact Us</a></li>
                         </div>
 
-                        <div class="nav-2">                        
-                        <button class="button signup-btn"><a href="{{route('customer')}}">register</a></button>
+                        <div class="nav-2">     
+                        <button class="button signup-btn"><a href="{{route('manuLogin.log')}}">manufacturer</a></button>                   
+                        <button class="button signup-btn"><a href="{{route('customer')}}">Customer</a></button>
                         <button class="button login-btn"><a href="{{route('login')}}">login</a></button>
                         </div>
                     </ul>

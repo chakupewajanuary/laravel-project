@@ -78,7 +78,14 @@ class AdminController extends Controller
             return redirect()->route('manufacturer')->with('success', 'Login successful!');
         };
     }
-    
 
+    // // for log out function
+    // public function logOut(){
+    //     return view('home');
+    // }
+    
+    public function manufacture(){
+        return view('manufacturer');
+    }
 
 }
